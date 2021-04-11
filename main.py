@@ -1,6 +1,8 @@
-# Node class
+"""AVL Tree"""
 class Node:
+    """Node class"""
     def __init__(self, val=None):
+        """constructor"""
         self.val = val
         self._left = None
         self._right = None
@@ -24,6 +26,7 @@ class Node:
         return self._balance
 
     def _update(self):
+        """updates height and balance of node"""
         if self.left:
             l = self.left._height
         else:
@@ -46,9 +49,10 @@ class Node:
         self._right = node
         self._update()
 
-    # Function for printing binary tree,
-    # source: https://stackoverflow.com/questions/34012886/print-binary-tree-level-by-level-in-python
+
     def display(self):
+        """ Function for printing binary tree,
+     source: https://stackoverflow.com/questions/34012886/print-binary-tree-level-by-level-in-python"""
         lines, *_ = self._display_aux()
         for line in lines:
             print(line)
@@ -110,6 +114,7 @@ class Tree:
     #   /
     # c          = h + 2
     def _ll(self, root):
+        """left left rotation"""
         t = root.left  # t = b
         root.left = t.right  # a.l = t.r
         t.right = root  # t.r = a
@@ -122,30 +127,34 @@ class Tree:
     #    \
     #     c     = h + 2
     def _rr(self, root):
+        """right right rotation"""
         t = root.right  # t = b
         root.right = t.left  # a.r = b.l
         t.left = root  # t.l = a
         return t
 
-    #        a   = h
+    #        a
     #      /
-    #    b       = h + {1, 2}
+    #    b
     #    \
-    #     c      = h + 2
+    #     c
     def _lr(self, root):
+        """left right rotation"""
         root.left = self._rr(root.left)
         return self._ll(root)
 
-    # a         = h
+    # a
     #  \
-    #   b       = h + {1, 2}
+    #   b
     #   /
-    # c         = h + 2
+    # c
     def _rl(self, root):
+        """right left rotation"""
         root.right = self._ll(root.right)
         return self._rr(root)
 
     def _rebalance(self, root):
+        """balancing tree via rotations"""
         if root.balance > 1:
             if root.right.balance >= 0:
                 root = self._rr(root)
@@ -160,6 +169,7 @@ class Tree:
         return root
 
     def _add(self, root, element):
+        """Recursive function for adding element to tree"""
         if not root:  # Creating new Node
             return Node(element)
         if element < root.val:
@@ -169,10 +179,12 @@ class Tree:
         return self._rebalance(root)  # We go down and when we go up we balance the tree
 
     def add(self, element):
+        """add element to tree"""
         self.node = self._add(self.node, element)
 
     def _search(self, element, node):
-        if node == None:
+        """Recursive function for searching element in tree"""
+        if node is None:
             return False
         if node.val == element:
             return True
@@ -182,6 +194,7 @@ class Tree:
             return self._search(element, node.left)
 
     def search(self, element):
+        """Search element in tree"""
         if self.node is None:
             return False
         if self.node.val == element:
@@ -189,17 +202,20 @@ class Tree:
         return self._search(element, self.node)
 
     def _inorder(self, root):
+        """recursive function for inorder()"""
         if root:
             self._inorder(root.left)
             self.inorder_list.append(root.val)
             self._inorder(root.right)
 
     def inorder(self):
+        """Returns a list with items in ascending order"""
         self.inorder_list = []
         self._inorder(self.node)
         return self.inorder_list
 
     def postorder(self):
+        """Returns a list with items in descending order"""
         return self.inorder()[::-1]
 
 
