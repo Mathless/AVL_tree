@@ -1,6 +1,9 @@
 """AVL Tree"""
+
+
 class Node:
     """Node class"""
+
     def __init__(self, val=None):
         """constructor"""
         self.val = val
@@ -48,7 +51,6 @@ class Node:
     def right(self, node):
         self._right = node
         self._update()
-
 
     def display(self):
         """ Function for printing binary tree,
